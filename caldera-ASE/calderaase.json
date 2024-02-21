@@ -1,29 +1,31 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.25.53.49325",
+      "templateHash": "10515810166068556592"
+    }
+  },
   "parameters": {
     "env": {
       "type": "string",
       "metadata": {
         "description": "Chose a variable for the environment. Example: dev, test, soc"
       }
-    },
-    "location": {
-      "type": "string",
-      "metadata": {
-        "description": "Chose a location for the deployment. Example: eastus, westus"
-      }
     }
   },
   "variables": {
-    "environmentid": "[uniqueString(subscription().id, resourceGroup().id, tenant().tenantId, parameters('env'))]"
+    "environmentid": "[uniqueString(subscription().id, resourceGroup().id, tenant().tenantId, parameters('env'))]",
+    "location": "[resourceGroup().location]"
   },
   "resources": [
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2022-09-01",
       "name": "[format('asp-caldera-{0}', variables('environmentid'))]",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "properties": {
         "reserved": true
       },
@@ -56,13 +58,13 @@
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2023-01-31",
       "name": "[format('umi-caldera-{0}', variables('environmentid'))]",
-      "location": "[parameters('location')]"
+      "location": "[variables('location')]"
     },
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2022-09-01",
       "name": "[format('ase-caldera-{0}', variables('environmentid'))]",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "kind": "container",
       "identity": {
         "type": "UserAssigned",
@@ -134,7 +136,7 @@
       "type": "Microsoft.Automation/automationAccounts",
       "apiVersion": "2023-11-01",
       "name": "[format('auto-caldera-{0}', variables('environmentid'))]",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "identity": {
         "type": "UserAssigned",
         "userAssignedIdentities": {
@@ -207,7 +209,7 @@
       "type": "Microsoft.OperationalInsights/workspaces",
       "apiVersion": "2022-10-01",
       "name": "[format('log-caldera-{0}', variables('environmentid'))]",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "identity": {
         "type": "UserAssigned",
         "userAssignedIdentities": {
@@ -257,7 +259,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2023-01-01",
       "name": "[format('stcal{0}', variables('environmentid'))]",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "identity": {
         "type": "UserAssigned",
         "userAssignedIdentities": {
