@@ -4,7 +4,7 @@ This project deploys a Caldera server on Azure App Service for Breach and Attack
 
 ## Overview
 
-The Bicep script deploys the following resources:
+This deploys the following resources:
 
 - Azure App Service 
 - Azure Automation Account (for deploying Caldera Agents)
@@ -15,23 +15,17 @@ The Bicep script deploys the following resources:
 
 1. Hit blue "Deploy" button.
 
-2. Specify your Azure Subscription and Resource Group.
-
-3. DO NOT FORGET TO SET UP AUTHENTICATION WITH ENTRA ID.
-
-
-## Getting Started Guide
-
-This section provides a step-by-step guide for deploying the CalderaASE.
-
-1. **Step 1: Deploy to Azure**
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/[https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.storage%2Fstorage-account-create%2Fazuredeploy.json](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmsdirtbag%2FMicrosoftPurpleTeamToolkit%2Fmain%2Fcaldera-ASE%2Fcalderaase.json))
 
    ![Deploy](./images/clone-repo.png)
 
-2. **Step 2: Set up Authentication with Entra ID**
+2. Specify your Azure Subscription and Resource Group.
+
+3. Critical! Set up Authentication with Entra ID.
 
    ![Auth](./images/navigate-directory.png)
 
-3. **Step 3: Set the C2 URL**
+4. Set the Caldera Agents URL.
 
-   ![Set URL](./images/run-command.png)
+   ![Set URL](./images/navigate-directory.png)   
+
