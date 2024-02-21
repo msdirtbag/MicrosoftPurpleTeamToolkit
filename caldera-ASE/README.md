@@ -1,6 +1,6 @@
 # Azure App Service Caldera Deployment
 
-This project deploys a Caldera server on Azure App Service for Breach and Attack Simulation.
+This project deploys a Caldera container on Azure App Service for Breach and Attack Simulation.
 
 ## What is MITRE Caldera?
 
@@ -36,7 +36,7 @@ This project deploys the following Azure resource types:
 - Azure App Service 
 - Azure Automation Account (for deploying Caldera Agents)
 - Log Analytics Workspace (for logging)
-- Storage Account (for scripts)
+- Storage Account (for script storage)
 
 ## Deployment
 
@@ -52,10 +52,10 @@ This project deploys the following Azure resource types:
 
    <img src="./images/auth.png" alt="Auth" width="600" height="600">
 
-4. Set the Caldera Agents URL.
+4. Set the Caldera Agents URL. (This can either be the App Service azurewebsites.net name or a custom DNS domain that has been verified with Azure App Service)
 
    <img src="./images/agent.png" alt="Set URL" width="600" height="600"> 
 
 ## Programming Notes
--No warranties expressed or implied. If you forget to set up auth and your Caldera server gets used to deliver actual malware evil, that's on you. 
+-No warranties expressed or implied. If you forget to set up auth and your Caldera server gets used to deliver actual malware evil to corporate prod infrastructure, that's on you!
 
