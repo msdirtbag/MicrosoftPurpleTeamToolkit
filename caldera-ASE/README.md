@@ -6,6 +6,8 @@ This project deploys a Caldera server on Azure App Service for Breach and Attack
 
 **MITRE Caldera 5.0** is a cybersecurity platform designed to automate adversary emulation, assist manual red-teams, and automate incident response.
 
+   ![Deploy](./images/dashboard.png)
+
 1. **History**:
    - **Caldera** was built on the foundation of **MITRE ATT&CK™**.
    - It serves as a bridge between government, industry, and academia, delivering public interest impact to enhance national and global safety and stability.
@@ -38,7 +40,7 @@ This project deploys the following Azure resource types:
 
 ## Deployment
 
-1. Hit blue "Deploy" button.
+1. Hit the blue "Deploy" button below.
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmsdirtbag%2FMicrosoftPurpleTeamToolkit%2Fmain%2Fcaldera-ASE%2Fcalderaase.json)
 
