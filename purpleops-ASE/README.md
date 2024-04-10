@@ -2,7 +2,7 @@
 
 This project deploys a PurpleOps container on Azure App Service for Purple Teaming.
 
-## What is PurpleOps
+## What is PurpleOps?
 
 **PurpleOps** is a free, open-source web app to track Purple Team assessments. Create assessments aligned with MITRE ATT&CK, leveraging data from sources like Atomic Red Team and SIGMA. Centralise blue and red team data for evaluation. Iterate and improve organisational cybersecurity capabilities.
 
@@ -10,7 +10,7 @@ Boasts a permissive licence, a lean hackable codebase and freedom to import / ex
 
    ![Dashboard](./images/dashboard.png)
 
-Key Features
+Key Features:
 
 -Template engagements and testcases
 
@@ -22,9 +22,11 @@ Key Features
 
 How PurpleOps is different:
 
-No attribution needed
-Hackable, no “no-reversing” clauses
-No over complications with tomcat, redis, manual database transplanting and an obtuce permission modeltates penetration testing, red teams, and adversary emulation, freeing up security professionals to address other challenges.
+-No attribution needed
+
+-Hackable, no “no-reversing” clauses
+
+-No over complications with tomcat, redis, manual database transplanting and an obtuce permission modeltates penetration testing, red teams, and adversary emulation, freeing up security professionals to address other challenges.
 
 PurpleOps Repo: https://github.com/CyberCX-STA/PurpleOps
 
