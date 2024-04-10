@@ -11,9 +11,13 @@ Boasts a permissive licence, a lean hackable codebase and freedom to import / ex
    ![Dashboard](./images/dashboard.png)
 
 Key Features
+
 -Template engagements and testcases
+
 -Framework friendly
+
 -Role-based Access Control & MFA
+
 -Inbuilt DOCX reporting + custom template support
 
 How PurpleOps is different:
