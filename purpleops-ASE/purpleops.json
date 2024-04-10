@@ -1,0 +1,185 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "env": {
+      "type": "string",
+      "metadata": {
+        "description": "Chose a variable for the environment. Example: dev, test, soc"
+      }
+    }
+  },
+  "variables": {
+    "environmentid": "[uniqueString(subscription().id, resourceGroup().id, tenant().tenantId, parameters('env'))]",
+    "location": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2022-09-01",
+      "name": "[format('asp-purpleops-{0}', variables('environmentid'))]",
+      "location": "[variables('location')]",
+      "properties": {
+        "reserved": true
+      },
+      "sku": {
+        "tier": "PremiumV3",
+        "name": "P0v3"
+      },
+      "kind": "linux"
+    },
+    {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "apiVersion": "2021-05-01-preview",
+      "scope": "[format('Microsoft.Web/serverfarms/{0}', format('asp-purpleops-{0}', variables('environmentid')))]",
+      "name": "Monitor-ASP",
+      "properties": {
+        "metrics": [
+          {
+            "category": "allMetrics",
+            "enabled": true
+          }
+        ],
+        "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces', format('log-purpleops-{0}', variables('environmentid')))]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', format('asp-purpleops-{0}', variables('environmentid')))]",
+        "[resourceId('Microsoft.OperationalInsights/workspaces', format('log-purpleops-{0}', variables('environmentid')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+      "apiVersion": "2023-01-31",
+      "name": "[format('umi-purpleops-{0}', variables('environmentid'))]",
+      "location": "[variables('location')]"
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2022-09-01",
+      "name": "[format('ase-purpleops-{0}', variables('environmentid'))]",
+      "location": "[variables('location')]",
+      "kind": "container",
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('umi-purpleops-{0}', variables('environmentid'))))]": {}
+        }
+      },
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format('asp-purpleops-{0}', variables('environmentid')))]",
+        "publicNetworkAccess": "Enabled",
+        "httpsOnly": true,
+        "siteConfig": {
+          "ipSecurityRestrictionsDefaultAction": "Allow",
+          "healthCheckPath": "/",
+          "scmIpSecurityRestrictionsDefaultAction": "Deny",
+          "http20Enabled": true,
+          "remoteDebuggingEnabled": false,
+          "scmMinTlsVersion": "1.2",
+          "linuxFxVersion": "DOCKER|msdirtbag/purpleopsase",
+          "alwaysOn": true,
+          "use32BitWorkerProcess": false,
+          "minTlsVersion": "1.2",
+          "ftpsState": "Disabled"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', format('asp-purpleops-{0}', variables('environmentid')))]",
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('umi-purpleops-{0}', variables('environmentid')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "apiVersion": "2021-05-01-preview",
+      "scope": "[format('Microsoft.Web/sites/{0}', format('ase-purpleops-{0}', variables('environmentid')))]",
+      "name": "Monitor-PurAppService",
+      "properties": {
+        "logs": [
+          {
+            "categoryGroup": "allLogs",
+            "enabled": true
+          }
+        ],
+        "metrics": [
+          {
+            "category": "allMetrics",
+            "enabled": true
+          }
+        ],
+        "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces', format('log-purpleops-{0}', variables('environmentid')))]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', format('ase-purpleops-{0}', variables('environmentid')))]",
+        "[resourceId('Microsoft.OperationalInsights/workspaces', format('log-purpleops-{0}', variables('environmentid')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}/{1}', format('ase-purpleops-{0}', variables('environmentid')), 'appsettings')]",
+      "kind": "calappsettings",
+      "properties": {
+        "WEBSITES_ENABLE_APP_SERVICE_STORAGE": "true"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', format('ase-purpleops-{0}', variables('environmentid')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2022-10-01",
+      "name": "[format('log-purpleops-{0}', variables('environmentid'))]",
+      "location": "[variables('location')]",
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('umi-purpleops-{0}', variables('environmentid'))))]": {}
+        }
+      },
+      "properties": {
+        "features": {
+          "enableDataExport": true
+        },
+        "publicNetworkAccessForIngestion": "Enabled",
+        "publicNetworkAccessForQuery": "Enabled",
+        "retentionInDays": 30,
+        "sku": {
+          "name": "PerGB2018"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('umi-purpleops-{0}', variables('environmentid')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "apiVersion": "2021-05-01-preview",
+      "scope": "[format('Microsoft.OperationalInsights/workspaces/{0}', format('log-purpleops-{0}', variables('environmentid')))]",
+      "name": "Monitor-LA",
+      "properties": {
+        "logs": [
+          {
+            "categoryGroup": "allLogs",
+            "enabled": true
+          }
+        ],
+        "metrics": [
+          {
+            "category": "allMetrics",
+            "enabled": true
+          }
+        ],
+        "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces', format('log-purpleops-{0}', variables('environmentid')))]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.OperationalInsights/workspaces', format('log-purpleops-{0}', variables('environmentid')))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "calappservicename": {
+      "type": "string",
+      "value": "[format('ase-purpleops-{0}', variables('environmentid'))]"
+    }
+  }
+}
