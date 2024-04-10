@@ -2,41 +2,34 @@
 
 This project deploys a PurpleOps container on Azure App Service for Purple Teaming.
 
-## What is MITRE Caldera?
+## What is PurpleOps
 
-**MITRE Caldera 5.0** is a cybersecurity platform designed to automate adversary emulation, assist manual red-teams, and automate incident response.
+**PurpleOps** is a free, open-source web app to track Purple Team assessments. Create assessments aligned with MITRE ATT&CK, leveraging data from sources like Atomic Red Team and SIGMA. Centralise blue and red team data for evaluation. Iterate and improve organisational cybersecurity capabilities.
 
-   ![Deploy](./images/dashboard.png)
+Boasts a permissive licence, a lean hackable codebase and freedom to import / export data as you please.
 
-1. **History**:
-   - **Caldera** was built on the foundation of **MITRE ATT&CK™**.
-   - It serves as a bridge between government, industry, and academia, delivering public interest impact to enhance national and global safety and stability.
-   - The framework enables autonomous breach-and-simulation exercises, manual red-team engagements, and automated incident response.
+   ![Dashboard](./images/dashboard.png)
 
-2. **Functionality**:
-   - **Autonomous Adversary Emulation**: Cyber teams can create specific threat profiles (adversaries) and launch them in a network to identify vulnerabilities. This aids in testing defenses and training blue teams to detect specific threats.
-   - **Test & Evaluation of Detection, Analytic, and Response Platforms**: Automated testing covers network and host defenses, logging, sensors, analytics, and alerting.
-   - **Manual Red-Team Engagements**: Caldera augments existing offensive toolsets, assisting red teams in manual assessments.
-   - **Purple Teams**: The framework supports cutting-edge research in cyber gaming, emulation, simulation, and cyber defense analytics.
+Key Features
+-Template engagements and testcases
+-Framework friendly
+-Role-based Access Control & MFA
+-Inbuilt DOCX reporting + custom template support
 
-3. **Purpose**:
-   - **Resource Efficiency**: Caldera reduces the resources needed for routine security testing, allowing security teams to focus on critical problems.
-   - **Intelligent Red-Team System**: It facilitates penetration testing, red teams, and adversary emulation, freeing up security professionals to address other challenges.
+How PurpleOps is different:
 
-Official Website: [MITRE Caldera website](https://caldera.mitre.org/)
+No attribution needed
+Hackable, no “no-reversing” clauses
+No over complications with tomcat, redis, manual database transplanting and an obtuce permission modeltates penetration testing, red teams, and adversary emulation, freeing up security professionals to address other challenges.
 
-Medium Article: [Announcing MITRE Caldera v5](https://medium.com/@mitrecaldera/announcing-mitre-caldera-v5-06798b928adf)
-
-Official Github: [MITRE Caldera](https://github.com/mitre/caldera)
+PurpleOps Repo: https://github.com/CyberCX-STA/PurpleOps
 
 ## Overview
 
 This project deploys the following Azure resource types:
 
 - Azure App Service 
-- Azure Automation Account (for deploying Caldera Agents)
-- Log Analytics Workspace (for logging)
-- Storage Account (for script storage)
+- App Service Plan
 
 ## Deployment
 
@@ -46,16 +39,13 @@ This project deploys the following Azure resource types:
 
 2. Specify your Azure Subscription and Resource Group.
 
-   <img src="./images/rg.png" alt="Deploy" width="600" height="600">
+   <img src="./images/rg.png" alt="Deploy">
 
-3. Critical! Set up Authentication with Entra ID. (local users are red/blue with the password "admin")
+3. Critical! Set up Authentication with Entra ID. (First Local User is admin@purpleops.com & Admin3301049!0!)
 
-   <img src="./images/auth.png" alt="Auth" width="600" height="600">
+   <img src="./images/auth.png" alt="Auth">
 
-4. Set the Caldera Agents URL. (This can either be the App Service azurewebsites.net name or a custom DNS domain that has been verified with Azure App Service)
-
-   <img src="./images/agent.png" alt="Set URL" width="600" height="600"> 
 
 ## Programming Notes
--No warranties expressed or implied. If you forget to set up auth and your Caldera server gets used to deliver actual malware evil to corporate prod infrastructure, that's on you!
+-No warranties expressed or implied. 
 
