@@ -29,8 +29,8 @@
         "reserved": true
       },
       "sku": {
-        "tier": "PremiumV3",
-        "name": "P0v3"
+        "tier": "Basic",
+        "name": "B2"
       },
       "kind": "linux"
     },
