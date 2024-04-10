@@ -41,9 +41,7 @@ This project deploys the following Azure resource types:
 
    <img src="./images/rg.png" alt="Deploy">
 
-3. Critical! Set up Authentication with Entra ID. (First Local User is admin@purpleops.com & Admin3301049!0!)
-
-   <img src="./images/auth.png" alt="Auth">
+3. Critical! Set up users & change admin password. (First Local User is admin@purpleops.com & Admin3301049!0!)
 
 
 ## Programming Notes
