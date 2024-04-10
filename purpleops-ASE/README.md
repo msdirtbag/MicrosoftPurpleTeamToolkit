@@ -1,6 +1,6 @@
-# Azure App Service Caldera Deployment
+# Azure App Service PurpleOps Deployment
 
-This project deploys a Caldera container on Azure App Service for Breach and Attack Simulation.
+This project deploys a PurpleOps container on Azure App Service for Purple Teaming.
 
 ## What is MITRE Caldera?
 
